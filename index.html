@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shadow Hunter | Personal Site</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main>
+      <section class="stage" aria-label="Shadow hunter display">
+        <canvas id="mistCanvas"></canvas>
+
+        <header class="topbar">
+          <a class="brand" href="#home" aria-label="Home">SH</a>
+          <nav aria-label="Primary navigation">
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </header>
+
+        <div class="hero" id="home">
+          <div class="hero-copy">
+            <p class="kicker">Personal website</p>
+            <h1>Shadow Hunter</h1>
+            <p class="tagline">A living profile display where your portrait dissolves into drifting mist and gets pulled into the dark.</p>
+          </div>
+
+          <div class="display-shell" aria-label="Interactive portrait display">
+            <div class="portrait-frame">
+              <canvas id="portraitCanvas" width="720" height="900"></canvas>
+              <div class="scanline"></div>
+              <div class="vignette"></div>
+            </div>
+
+            <div class="controls" aria-label="Display controls">
+              <label class="file-control">
+                <input id="photoInput" type="file" accept="image/*">
+                <span>Upload Portrait</span>
+              </label>
+
+              <label>
+                Pull
+                <input id="pullRange" type="range" min="0" max="100" value="68">
+              </label>
+
+              <label>
+                Mist
+                <input id="mistRange" type="range" min="15" max="100" value="74">
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-band" id="about">
+        <div class="content-inner">
+          <p class="section-label">About</p>
+          <h2>Built Like A Character Screen</h2>
+          <p>This is a personal site with a darker, game-inspired identity: atmospheric, interactive, and ready for your own portrait, name, links, and project details.</p>
+        </div>
+      </section>
+
+      <section class="content-band alt" id="projects">
+        <div class="content-inner">
+          <p class="section-label">Projects</p>
+          <div class="project-grid">
+            <article>
+              <h3>Featured Quest</h3>
+              <p>A place for your strongest project, portfolio piece, or current build.</p>
+            </article>
+            <article>
+              <h3>Skill Tree</h3>
+              <p>Use this slot for languages, tools, creative skills, or game stats.</p>
+            </article>
+            <article>
+              <h3>Archive</h3>
+              <p>A compact link out to GitHub, videos, writing, art, or case studies.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-band" id="contact">
+        <div class="content-inner contact-row">
+          <div>
+            <p class="section-label">Contact</p>
+            <h2>Enter The Fog</h2>
+          </div>
+          <a class="contact-button" href="mailto:you@example.com">you@example.com</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
