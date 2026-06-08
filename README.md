@@ -1,2 +1,0 @@
-# Meehhh
-All about me 
