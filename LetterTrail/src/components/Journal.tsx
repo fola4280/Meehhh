@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
-import type { JournalEntry, Mood } from '../types';
+import type { JournalEntry, MemoryReview, Mood, UserProfile } from '../types';
+import MemoryDetail from './MemoryDetail';
 
 const moods: Mood[] = ['Inspired', 'Adventurous', 'Relaxed', 'Curious', 'Playful', 'Nostalgic'];
 
@@ -15,7 +16,9 @@ const locationCoordinates: Record<string, JournalEntry['coordinates']> = {
 
 interface JournalProps {
   entries: JournalEntry[];
+  currentUser: UserProfile;
   onAddEntry: (entries: JournalEntry[]) => void;
+  onAddReview: (entryId: string, review: MemoryReview) => void;
 }
 
 const emptyForm = {
@@ -26,8 +29,10 @@ const emptyForm = {
   story: '',
 };
 
-export default function Journal({ entries, onAddEntry }: JournalProps) {
+export default function Journal({ entries, currentUser, onAddEntry, onAddReview }: JournalProps) {
   const [form, setForm] = useState(emptyForm);
+  const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
+  const selectedEntry = entries.find((entry) => entry.id === selectedEntryId);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,6 +47,10 @@ export default function Journal({ entries, onAddEntry }: JournalProps) {
       mood: form.mood,
       story: form.story,
       coordinates,
+      galleryPhotos: [],
+      reviews: [],
+      landmarks: [],
+      restaurants: [],
     };
 
     onAddEntry([nextEntry, ...entries]);
@@ -113,8 +122,24 @@ export default function Journal({ entries, onAddEntry }: JournalProps) {
       </section>
 
       <section className="space-y-5">
+        {selectedEntry && (
+          <MemoryDetail
+            entry={selectedEntry}
+            currentUser={currentUser}
+            onClose={() => setSelectedEntryId(null)}
+            onAddReview={onAddReview}
+          />
+        )}
+
         {entries.map((entry) => (
-          <article key={entry.id} className="postcard-card grid gap-5 md:grid-cols-[220px_1fr]">
+          <button
+            key={entry.id}
+            type="button"
+            onClick={() => setSelectedEntryId(entry.id)}
+            className={`postcard-card grid w-full gap-5 text-left md:grid-cols-[220px_1fr] ${
+              selectedEntryId === entry.id ? 'ring-4 ring-rust/20' : 'hover:-translate-y-1'
+            }`}
+          >
             <img src={entry.photo} alt={entry.location} className="h-56 w-full rounded-lg object-cover md:h-full" />
             <div>
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -129,8 +154,22 @@ export default function Journal({ entries, onAddEntry }: JournalProps) {
                 </time>
               </div>
               <p className="mt-4 leading-8 text-slate-600">{entry.story}</p>
+              <div className="mt-5 flex flex-wrap gap-2 text-sm font-black text-slate-500">
+                <span className="rounded-md bg-sand px-3 py-1">
+                  {(entry.reviews ?? []).length} reviews
+                </span>
+                <span className="rounded-md bg-sand px-3 py-1">
+                  {1 + (entry.galleryPhotos ?? []).length} photos
+                </span>
+                <span className="rounded-md bg-sand px-3 py-1">
+                  {(entry.landmarks ?? []).length} landmarks nearby
+                </span>
+                <span className="rounded-md bg-sand px-3 py-1">
+                  {(entry.restaurants ?? []).length} restaurants
+                </span>
+              </div>
             </div>
-          </article>
+          </button>
         ))}
       </section>
     </main>

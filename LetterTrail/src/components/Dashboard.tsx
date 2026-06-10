@@ -16,7 +16,12 @@ export default function Dashboard({
   matchedSuggestions,
   onAcceptRequest,
 }: DashboardProps) {
-  const countries = new Set(journalEntries.map((entry) => entry.location.split(',').at(-1)?.trim()));
+  const countries = new Set(
+    journalEntries.map((entry) => {
+      const parts = entry.location.split(',');
+      return parts[parts.length - 1]?.trim();
+    })
+  );
 
   return (
     <main className="space-y-6">

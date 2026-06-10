@@ -1,6 +1,6 @@
 import type { UserProfile } from '../types';
 
-type View = 'dashboard' | 'profiles' | 'journal' | 'map';
+type View = 'dashboard' | 'profiles' | 'mailbox' | 'journal' | 'map' | 'profile';
 
 interface HeaderProps {
   activeView: View;
@@ -11,8 +11,10 @@ interface HeaderProps {
 const navItems: Array<{ id: View; label: string; icon: string }> = [
   { id: 'dashboard', label: 'Dashboard', icon: 'LT' },
   { id: 'profiles', label: 'Penpals', icon: 'PP' },
+  { id: 'mailbox', label: 'Mailbox', icon: 'MB' },
   { id: 'journal', label: 'Journal', icon: 'JR' },
   { id: 'map', label: 'Map', icon: 'MP' },
+  { id: 'profile', label: 'Profile', icon: 'ME' },
 ];
 
 export default function Header({ activeView, onChangeView, currentUser }: HeaderProps) {
@@ -35,7 +37,7 @@ export default function Header({ activeView, onChangeView, currentUser }: Header
         </div>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <nav className="grid grid-cols-4 gap-2 rounded-lg bg-sand/80 p-2 shadow-inner">
+          <nav className="grid grid-cols-3 gap-2 rounded-lg bg-sand/80 p-2 shadow-inner sm:grid-cols-6">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -55,7 +57,16 @@ export default function Header({ activeView, onChangeView, currentUser }: Header
             ))}
           </nav>
 
-          <div className="flex items-center gap-3 rounded-lg bg-white/80 p-2 pr-4 shadow-sm">
+          <button
+            type="button"
+            onClick={() => onChangeView('profile')}
+            className={`flex items-center gap-3 rounded-lg p-2 pr-4 text-left shadow-sm transition ${
+              activeView === 'profile'
+                ? 'bg-white text-lake ring-4 ring-lake/10'
+                : 'bg-white/80 hover:bg-white'
+            }`}
+            title="Edit profile"
+          >
             <img
               src={currentUser.avatar}
               alt={currentUser.name}
@@ -65,7 +76,7 @@ export default function Header({ activeView, onChangeView, currentUser }: Header
               <p className="truncate text-sm font-black text-slate-950">{currentUser.name}</p>
               <p className="truncate text-xs font-semibold text-slate-500">{currentUser.city}</p>
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </header>
